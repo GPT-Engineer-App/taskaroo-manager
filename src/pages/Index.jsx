@@ -4,30 +4,28 @@ import { Package2, Plus } from "lucide-react";
 import ListView from './ListView';
 import KanbanView from './KanbanView';
 import CalendarView from './CalendarView';
-import TaskModal from './TaskModal';
 
 const Index = () => {
-  const [view, setView] = useState('list');
-  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const [view, setView] = useState('board');
 
   const renderView = () => {
     switch(view) {
       case 'list':
         return <ListView />;
-      case 'kanban':
+      case 'board':
         return <KanbanView />;
       case 'calendar':
         return <CalendarView />;
       default:
-        return <ListView />;
+        return <KanbanView />;
     }
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground">
-      <header className="flex items-center justify-between p-4 bg-card border-b border-border">
+    <div className="flex flex-col min-h-screen bg-[#1f1f1f] text-white">
+      <header className="flex items-center justify-between p-4 bg-[#2c2c2c] border-b border-gray-700">
         <div className="flex items-center space-x-2">
-          <Package2 className="h-6 w-6 text-primary" />
+          <Package2 className="h-6 w-6 text-pink-500" />
           <span className="text-xl font-bold">Content Board</span>
         </div>
         <nav className="flex space-x-1">
@@ -39,8 +37,8 @@ const Index = () => {
             List
           </Button>
           <Button 
-            variant={view === 'kanban' ? 'secondary' : 'ghost'} 
-            onClick={() => setView('kanban')}
+            variant={view === 'board' ? 'secondary' : 'ghost'} 
+            onClick={() => setView('board')}
             className="text-sm"
           >
             Board
@@ -53,14 +51,13 @@ const Index = () => {
             Calendar
           </Button>
         </nav>
-        <Button onClick={() => setIsTaskModalOpen(true)} className="bg-primary text-primary-foreground hover:bg-primary/90">
+        <Button className="bg-pink-500 text-white hover:bg-pink-600">
           <Plus className="h-4 w-4 mr-2" /> Add task
         </Button>
       </header>
-      <main className="flex-grow p-4">
+      <main className="flex-grow overflow-auto">
         {renderView()}
       </main>
-      <TaskModal isOpen={isTaskModalOpen} onClose={() => setIsTaskModalOpen(false)} />
     </div>
   );
 };
