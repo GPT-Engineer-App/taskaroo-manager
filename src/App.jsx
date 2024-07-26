@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Layout from "./layouts/clean"; // available: clean, navbar, sidebar
 import { navItems } from "./nav-items";
+import { TaskProvider } from "./contexts/TaskContext";
 
 const queryClient = new QueryClient();
 
@@ -12,15 +13,17 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        <Router>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              {navItems.map((item) => (
-                <Route key={item.to} path={item.to} element={item.page} />
-              ))}
-            </Route>
-          </Routes>
-        </Router>
+        <TaskProvider>
+          <Router>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                {navItems.map((item) => (
+                  <Route key={item.to} path={item.to} element={item.page} />
+                ))}
+              </Route>
+            </Routes>
+          </Router>
+        </TaskProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

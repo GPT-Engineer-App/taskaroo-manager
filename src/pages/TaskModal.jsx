@@ -5,15 +5,30 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useTasks } from '../contexts/TaskContext';
 
 const TaskModal = ({ isOpen, onClose, task }) => {
+  const { updateTask, addTask } = useTasks();
   const [title, setTitle] = useState(task?.title || '');
   const [description, setDescription] = useState(task?.description || '');
-  const [dueDate, setDueDate] = useState(task?.dueDate ? new Date(task.dueDate) : new Date());
+  const [dueDate, setDueDate] = useState(task?.date ? new Date(task.date) : new Date());
+  const [column, setColumn] = useState(task?.column || 'To-Dos');
 
   const handleSave = () => {
-    // Here you would typically save the task data
-    console.log({ title, description, dueDate });
+    const updatedTask = {
+      id: task?.id,
+      title,
+      description,
+      date: dueDate.toISOString().split('T')[0],
+      completed: task?.completed || false,
+      column
+    };
+
+    if (task) {
+      updateTask(updatedTask);
+    } else {
+      addTask(updatedTask);
+    }
     onClose();
   };
 
@@ -47,6 +62,17 @@ const TaskModal = ({ isOpen, onClose, task }) => {
               className="rounded-md border bg-muted"
             />
           </div>
+          <Select value={column} onValueChange={setColumn}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select column" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="To-Dos">To-Dos</SelectItem>
+              <SelectItem value="In-Progress">In-Progress</SelectItem>
+              <SelectItem value="Done">Done</SelectItem>
+              <SelectItem value="Untitled section">Untitled section</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
         <DialogFooter>
           <Button onClick={onClose} variant="outline">Cancel</Button>

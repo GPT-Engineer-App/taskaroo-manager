@@ -3,15 +3,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import TaskModal from './TaskModal';
+import { useTasks } from '../contexts/TaskContext';
 
 const ListView = () => {
-  const [tasks, setTasks] = useState([
-    { id: 1, title: 'Daily Brief // 1', dueDate: '2024-04-01', completed: false },
-    { id: 2, title: 'Daily Brief // 2', dueDate: '2024-04-02', completed: true },
-    { id: 3, title: 'Daily Brief // 3', dueDate: '2024-04-03', completed: true },
-    { id: 4, title: 'Daily Brief // 4', dueDate: '2024-04-04', completed: true },
-    { id: 5, title: 'Next event promotion post // 1', dueDate: '2024-04-03', completed: true },
-  ]);
+  const { tasks, updateTask } = useTasks();
   const [editingTask, setEditingTask] = useState(null);
 
   const handleEditTask = (task) => {
@@ -23,9 +18,8 @@ const ListView = () => {
   };
 
   const toggleTaskCompletion = (taskId) => {
-    setTasks(tasks.map(task => 
-      task.id === taskId ? { ...task, completed: !task.completed } : task
-    ));
+    const task = tasks.find(t => t.id === taskId);
+    updateTask({ ...task, completed: !task.completed });
   };
 
   return (
@@ -58,7 +52,7 @@ const ListView = () => {
                   <span className="text-xs">👤</span>
                 </div>
               </TableCell>
-              <TableCell>{task.dueDate}</TableCell>
+              <TableCell>{task.date}</TableCell>
               <TableCell>
                 <Button variant="ghost" size="sm" onClick={() => handleEditTask(task)}>Edit</Button>
               </TableCell>

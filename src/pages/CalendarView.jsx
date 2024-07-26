@@ -2,34 +2,14 @@ import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight, Plus, CheckCircle2 } from 'lucide-react';
+import { useTasks } from '../contexts/TaskContext';
 
 const CalendarView = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date(2024, 3)); // April 2024
+  const { tasks } = useTasks();
 
   const daysInMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate();
   const firstDayOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay();
-
-  const tasks = [
-    { id: 1, title: 'Daily Brief // 1', date: '2024-04-01', completed: false },
-    { id: 2, title: 'trailer', date: '2024-04-01', completed: true },
-    { id: 3, title: 'Partnership Post // 1', date: '2024-04-01', completed: true },
-    { id: 4, title: 'SBF article', date: '2024-04-01', completed: true },
-    { id: 5, title: 'Video // Moderate Investor tip', date: '2024-04-01', completed: false },
-    { id: 6, title: 'Daily Brief // 2', date: '2024-04-02', completed: true },
-    { id: 7, title: 'Speaker Card post', date: '2024-04-02', completed: true },
-    { id: 8, title: 'Video // Education in metaverse', date: '2024-04-02', completed: true },
-    { id: 9, title: 'Daily Brief // 3', date: '2024-04-03', completed: false },
-    { id: 10, title: 'Speaker Card Post', date: '2024-04-03', completed: false },
-    { id: 11, title: 'Video // RWA', date: '2024-04-03', completed: true },
-    { id: 12, title: 'Next event promotion post // 1', date: '2024-04-03', completed: false },
-    { id: 13, title: 'Partnership post //2', date: '2024-04-04', completed: false },
-    { id: 14, title: 'Video // Conservative Investor', date: '2024-04-04', completed: true },
-    { id: 15, title: 'Trailer boost', date: '2024-04-04', completed: true },
-    { id: 16, title: 'Daily Brief // 4', date: '2024-04-04', completed: true },
-    { id: 17, title: 'Next event promotion post // 2', date: '2024-04-05', completed: true },
-    { id: 18, title: 'trailer boost', date: '2024-04-05', completed: false },
-    { id: 19, title: 'Daily Brief // 5', date: '2024-04-05', completed: true },
-  ];
 
   const renderCalendar = () => {
     const calendar = [];
